@@ -4,7 +4,7 @@ A default set-up to quickly start a new PHP application
 ## Usage
 Create a new project with Composer:
 
-```
+```sh
 composer create-project -s dev basje/skeleton-app
 ```
 
@@ -16,10 +16,10 @@ When asked `Do you want to remove the existing VCS (.git, .svn..) history? [Y,n]
 
 ### Routing
 
-- Route by the PHP League: `league/route`
-    - Build on top of FastRoute by Nikita Popov: `nikic/fast-route`
-- PSR-7 definition of HTTP messages: `psr/http-message`
-- PSR-7 implementation of HTTP messages: `zendframework/zend-diactoros`
+- [Route](http://route.thephpleague.com/) by the [PHP League](http://thephpleague.com/): `league/route` [[source](https://github.com/thephpleague/route)]
+    - Build on top of [FastRoute](https://nikic.github.io/2014/02/18/Fast-request-routing-using-regular-expressions.html) by [Nikita Popov](https://nikic.github.io/): `nikic/fast-route` [[source](https://github.com/nikic/FastRoute)]
+- PSR-7 [definition of HTTP messages](http://www.php-fig.org/psr/psr-7/): `psr/http-message` [[source](https://github.com/php-fig/http-message)]
+- PSR-7 [implementation of HTTP messages](https://docs.zendframework.com/zend-diactoros/): `zendframework/zend-diactoros` [[source](https://github.com/zendframework/zend-diactoros)]
 
 ### Dependency Injector
 
