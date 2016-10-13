@@ -1,0 +1,11 @@
+{
+    "name": "basje/skeleton-app",
+    "description": "Skeleton app to quickly set up  a PHP application",
+    "authors": [
+        {
+            "name": "Bas Hamar de la Brethonière",
+            "email": "dev@basje.com"
+        }
+    ],
+    "require": {}
+}
