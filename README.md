@@ -30,3 +30,9 @@ When asked `Do you want to remove the existing VCS (.git, .svn..) history? [Y,n]
 - Logging: `monolog/monolog`
 - JSON Web Tokens: `firebase/php-jwt`
 - UUID generator: `ramsey/uuid`
+
+## Further Reading
+
+- [Building better project skeletons with Composer](https://www.binpress.com/tutorial/better-project-skeletons-with-composer/157)
+- [Semantic Versioning](http://semver.org/)
+- [Keep a CHANGELOG](http://keepachangelog.com/)
