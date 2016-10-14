@@ -21,9 +21,11 @@ final class SkeletonApp {
     $phpProjectName = self::getPhpProjectNameFromNamespace( $phpProjectNamespace );
 
     self::registerReplacement( 'composerPackageName', $composerPackageName );
+    self::registerReplacement( 'phpProjectNamespace', $phpProjectNamespace );
     self::registerReplacement( 'phpProjectName', $phpProjectName );
 
     self::setPlaceholdersInFile( implode( DIRECTORY_SEPARATOR, [ getcwd(), 'src', 'public', 'index.php' ] ) );
+    self::setPlaceholdersInFile( implode( DIRECTORY_SEPARATOR, [ getcwd(), 'src', 'app', 'Application.php' ] ) );
 
     // TODO: Write better functions for this functionality
 //    self::moveTemplateFiles();
@@ -156,9 +158,10 @@ final class SkeletonApp {
    */
   private static function getComposerPackageName() {
     $packageNamePattern = '[a-z0-9_.-]+/[a-z0-9_.-]+';
+    $patternWithDelimiters = sprintf( '#%s#', $packageNamePattern );
     $message = 'Composer package name (<vendor>/<name>): ';
     $packageName = self::getUserInput( $message );
-    while( preg_match( $packageNamePattern, $packageName ) !== 1 ) {
+    while( preg_match( $patternWithDelimiters, $packageName ) !== 1 ) {
       echo 'The package name a is invalid, it should be lowercase and have a ',
            'vendor name, a forward slash, and a package name, matching: ',
            $packageNamePattern, PHP_EOL;
@@ -174,11 +177,13 @@ final class SkeletonApp {
    * @return string PHP project namespace.
    */
   private static function getPhpProjectNamespace() {
-    $namespacePattern = '[A-Za-z0-9_]+\[A-Za-z0-9_]+';
-    $message = 'PHP project root namespace (<vendor>\<project>): ';
+    // Matching a literal backslash takes three backslashes in the pattern.
+    $namespacePattern = '[A-Za-z0-9_]+\\\[A-Za-z0-9_]+';
+    $patternWithDelimiters = sprintf( '#%s#', $namespacePattern );
+    $message = 'PHP project namespace (<vendor>\<project>): ';
     $namespace = self::getUserInput( $message );
-    while( preg_match( $namespacePattern, $namespace ) !== 1 ) {
-      echo 'The PHP root namespace is invalid, it should have a ',
+    while( preg_match( $patternWithDelimiters, $namespace ) !== 1 ) {
+      echo 'The PHP namespace is invalid, it should have a ',
            'vendor name, a backslash, and a project name, matching: ',
            $namespacePattern, PHP_EOL;
       $namespace = self::getUserInput( $message );
