@@ -13,22 +13,12 @@ final class SkeletonApp {
   public static function postCreateProjectHook() {
 
     echo PHP_EOL, PHP_EOL;
+    echo '  Welcome to the setup of your skeleton application. ', PHP_EOL,
+         '  Please follow the instructions.', PHP_EOL, PHP_EOL;
+    $composerPackageName = self::getComposerPackageName();
+    $phpProjectNamespace = self::getPhpProjectNamespace();
     $projectName = self::getProjectName();
     self::registerReplacement( 'projectName', $projectName );
-
-    echo wordwrap( 'You will need to choose a vendor name. Usually this is your ' .
-         'company name. It will be used to set the root namespace in the PHP ' .
-         'files and a lower case version will be used to set the vendor name ' .
-         'in the composer.json file.', 75, PHP_EOL ),
-          PHP_EOL, PHP_EOL;
-
-    do {
-      $vendorName = self::getUserInput( 'Please enter a vendor name: ' );
-    }
-    while( strlen( $vendorName ) === 0 );
-
-    echo sprintf( 'You typed "%s"' . PHP_EOL, $vendorName );
-
     echo sprintf( 'Project name "%s" taken from directory name ' . PHP_EOL, $projectName );
     self::moveTemplateFiles();
     self::removeDirectoryTree( 'skel' );
@@ -178,6 +168,25 @@ final class SkeletonApp {
       $packageName = self::getUserInput( $message );
     }
     return $packageName;
+  }
+
+  /**
+   * Asks for the preferred PHP project namespace to be initialised on project
+   * creation.
+   *
+   * @return string PHP project namespace.
+   */
+  private static function getPhpProjectNamespace() {
+    $namespacePattern = '[A-Za-z0-9_]+\[A-Za-z0-9_]+';
+    $message = 'PHP project root namespace (<vendor>\<project>): ';
+    $namespace = self::getUserInput( $message );
+    while( preg_match( $namespacePattern, $namespace ) !== 1 ) {
+      echo 'The PHP root namespace is invalid, it should have a ',
+           'vendor name, a backslash, and a project name, matching: ',
+           $namespacePattern, PHP_EOL;
+      $namespace = self::getUserInput( $message );
+    }
+    return $namespace;
   }
 
 }
