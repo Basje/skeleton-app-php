@@ -23,7 +23,7 @@
   $autoLoader = require_once $autoLoaderFilename;
 
   // Create the portal main application and run it.
-  $application = new {{ phpProjectName }}( $autoLoader );
+  $application = new Application( $autoLoader );
   $application->run();
 
 }
