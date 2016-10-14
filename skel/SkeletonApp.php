@@ -15,22 +15,19 @@ final class SkeletonApp {
     echo PHP_EOL, PHP_EOL;
     echo '  Welcome to the setup of your skeleton application. ', PHP_EOL,
          '  Please follow the instructions.', PHP_EOL, PHP_EOL;
+
     $composerPackageName = self::getComposerPackageName();
     $phpProjectNamespace = self::getPhpProjectNamespace();
-    $projectName = self::getProjectName();
-    self::registerReplacement( 'projectName', $projectName );
-    echo sprintf( 'Project name "%s" taken from directory name ' . PHP_EOL, $projectName );
-    self::moveTemplateFiles();
-    self::removeDirectoryTree( 'skel' );
-  }
+    $phpProjectName = self::getPhpProjectNameFromNamespace( $phpProjectNamespace );
 
-  /**
-   * Determine a project name based on the path that Composer created.
-   *
-   * @return string Project name
-   */
-  private static function getProjectName() {
-    return basename( realpath( "." ) );
+    self::registerReplacement( 'composerPackageName', $composerPackageName );
+    self::registerReplacement( 'phpProjectName', $phpProjectName );
+
+    self::setPlaceholdersInFile( implode( DIRECTORY_SEPARATOR, [ getcwd(), 'src', 'public', 'index.php' ] ) );
+
+    // TODO: Write better functions for this functionality
+//    self::moveTemplateFiles();
+//    self::removeDirectoryTree( 'skel' );
   }
 
   /**
@@ -187,6 +184,15 @@ final class SkeletonApp {
       $namespace = self::getUserInput( $message );
     }
     return $namespace;
+  }
+
+  /**
+   * @param string $namespace A PHP namespace.
+   * @return string PHP project name.
+   */
+  private static function getPhpProjectNameFromNamespace( $namespace ) {
+    list( $vendor, $projectName ) = explode( '\\', $namespace );
+    return $projectName;
   }
 
 }
